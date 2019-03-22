@@ -26,7 +26,11 @@ int main(int argc, char **argv)
     strcat(fullpath, "/");
     strcat(fullpath, entries->d_name);
     stat(fullpath, &buf);
-    printf("%10lld    %s\n", buf.st_size, entries->d_name);
+    if ((buf.st_mode & S_IFDIR) != 0) {
+      printf("%10s    %s\n","<DIR>", entries->d_name);
+    } else {
+      printf("%10lld    %s\n", buf.st_size, entries->d_name);
+    }
   }
 
   // Close directory
